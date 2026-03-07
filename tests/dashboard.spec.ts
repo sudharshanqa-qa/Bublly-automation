@@ -1,0 +1,40 @@
+import { test } from '@playwright/test';
+import { loginPage } from '../pages/loginPage';
+import { DashboardPage } from '../pages/DashboardPage';
+import { testdata } from '../utils/testdata';
+
+
+//tc to verify the welcome message on the dashboard after successful login
+test('Verify dashboard welcome message', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboardPage = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+  await dashboardPage.navigateToDashboard();
+
+  await dashboardPage.verifyWelcomeMessage();
+
+});
+
+//tc to verify the active workspace dropdown and the create new workspace option
+test('Verify Active Workspace dropdown functionality', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboardPage = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+  await dashboardPage.navigateToDashboard();
+
+  await dashboardPage.openWorkspaceDropdown();
+  await dashboardPage.verifyCreateWorkspaceOption();
+
+});
