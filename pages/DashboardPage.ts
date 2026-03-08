@@ -32,4 +32,16 @@ export class DashboardPage {
   async verifyCreateWorkspaceOption() {
     await expect(this.page.getByText("Create New Workspace")).toBeVisible();
   }
+
+  async openProjectDropdown() {
+  const projectDropdown = this.page.getByRole('button', { name: /project/i });
+
+  await projectDropdown.click();
+
+  await this.page.waitForTimeout(1000);  // small delay for dropdown animation
+}
+
+async verifyCreateProjectOption() {
+  await expect(this.page.getByText("Create Project")).toBeVisible();
+}
 }   
