@@ -58,3 +58,43 @@ test('Verify project selector functionality', async ({ page }) => {
   await dashboardPage.verifyCreateProjectOption();
 
 });
+
+test('TC_DASH_004 Verify switching project', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboard = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+
+  await dashboard.navigateToDashboard();
+
+  await dashboard.openProjectDropdown();
+
+  await dashboard.selectSecondProject();
+
+  await dashboard.verifyProjectChanged();
+
+});
+
+test('TC_DASH_006 Verify Search Functionality', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboard = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+
+  await dashboard.navigateToDashboard();
+
+  await dashboard.searchKeyword();
+
+  await dashboard.verifySearchResults();
+
+});
