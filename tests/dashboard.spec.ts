@@ -197,3 +197,23 @@ test('TC_DASH_010 Verify Notification Icon Opens Panel', async ({ page }) => {
   await dashboard.verifyNotificationPanelOpened();
 
 });
+test('TC_DASH_011 Verify Notification Settings navigation', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboard = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+
+  await dashboard.navigateToDashboard();
+
+  await dashboard.openNotificationPanel();
+
+  await dashboard.openNotificationSettings();
+
+  await dashboard.verifyNotificationSettingsPage();
+
+});

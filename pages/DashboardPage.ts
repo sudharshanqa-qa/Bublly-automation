@@ -211,4 +211,22 @@ export class DashboardPage {
 
   }
 
+  async openNotificationSettings() {
+
+    const settingsIcon = this.page.locator('h2', { hasText: 'Notifications' }).locator('..').locator('.cursor-pointer').nth(1);
+
+    await settingsIcon.waitFor({ state: 'visible' });
+
+    await settingsIcon.click();
+
+  }
+
+  async verifyNotificationSettingsPage() {
+
+    await expect(this.page.getByText("Notification Settings")).toBeVisible();
+
+    await expect(this.page).toHaveURL(/notificationsettings/);
+
+  }
+
 }
