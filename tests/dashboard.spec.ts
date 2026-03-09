@@ -98,3 +98,62 @@ test('TC_DASH_006 Verify Search Functionality', async ({ page }) => {
   await dashboard.verifySearchResults();
 
 });
+
+test('TC_DASH_007 Verify Assigned To Me ticket list', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboard = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+
+  await dashboard.navigateToDashboard();
+
+  await dashboard.verifyAssignedTicketsSection();
+
+  await dashboard.verifyTicketRowsExist();
+
+});
+
+test('TC_DASH_008 Verify ticket click opens conversation', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboard = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+
+  await dashboard.navigateToDashboard();
+
+  await dashboard.openFirstTicket();
+
+  await dashboard.verifyTicketPageOpened();
+
+});
+
+test('TC_DASH_009 Verify Create Project button opens project creation', async ({ page }) => {
+
+  const login = new loginPage(page);
+  const dashboard = new DashboardPage(page);
+
+  await login.navigateToLogin();
+  await login.enterEmail(testdata.email);
+  await login.clickEmailSignIn();
+  await login.enterPassword(testdata.password);
+  await login.clickPasswordSignIn();
+
+  await dashboard.navigateToDashboard();
+
+  await dashboard.openProjectDropdown();
+
+  await dashboard.clickCreateProject();
+
+  await dashboard.verifyCreateProjectModal();
+
+});

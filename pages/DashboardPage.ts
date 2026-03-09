@@ -123,5 +123,44 @@ export class DashboardPage {
     await expect(this.page.locator("body")).toContainText("ticket");
 
   }
+async verifyAssignedTicketsSection() {
+
+  const assignedSection = this.page.getByText("Assigned To Me");
+
+  await expect(assignedSection).toBeVisible();
+
+}
+
+async verifyTicketRowsExist() {
+
+  const ticketRows = this.page.locator("table tbody tr");
+
+  await expect(ticketRows.first()).toBeVisible();
+
+}
+async openFirstTicket() {
+
+  const firstTicket = this.page.locator("text=#TESAFD").first();
+
+  await firstTicket.waitFor({ state: 'visible' });
+
+  await firstTicket.click();
+
+}
+async verifyTicketPageOpened() {
+
+  await expect(this.page).toHaveURL(/tickets/);
+
+}
+async clickCreateProject() {
+
+  await this.page.getByText("Create Project").click();
+
+}
+async verifyCreateProjectModal() {
+
+  await expect(this.page.getByText("Create Project")).toBeVisible();
+
+}
 
 }
