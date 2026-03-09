@@ -123,44 +123,92 @@ export class DashboardPage {
     await expect(this.page.locator("body")).toContainText("ticket");
 
   }
-async verifyAssignedTicketsSection() {
+  async verifyAssignedTicketsSection() {
 
-  const assignedSection = this.page.getByText("Assigned To Me");
+    const assignedSection = this.page.getByText("Assigned To Me");
 
-  await expect(assignedSection).toBeVisible();
+    await expect(assignedSection).toBeVisible();
 
-}
+  }
 
-async verifyTicketRowsExist() {
+  async verifyTicketRowsExist() {
 
-  const ticketRows = this.page.locator("table tbody tr");
+    const ticketRows = this.page.locator("table tbody tr");
 
-  await expect(ticketRows.first()).toBeVisible();
+    await expect(ticketRows.first()).toBeVisible();
 
-}
-async openFirstTicket() {
+  }
+  async openFirstTicket() {
 
-  const firstTicket = this.page.locator("text=#TESAFD").first();
+    const firstTicket = this.page.locator("text=#TESAFD").first();
 
-  await firstTicket.waitFor({ state: 'visible' });
+    await firstTicket.waitFor({ state: 'visible' });
 
-  await firstTicket.click();
+    await firstTicket.click();
 
-}
-async verifyTicketPageOpened() {
+  }
+  async verifyTicketPageOpened() {
 
-  await expect(this.page).toHaveURL(/tickets/);
+    await expect(this.page).toHaveURL(/tickets/);
 
-}
-async clickCreateProject() {
+  }
+  async clickCreateProject() {
 
-  await this.page.getByText("Create Project").click();
+    await this.page.getByText("Create Project").click();
 
-}
-async verifyCreateProjectModal() {
+  }
+  async verifyCreateProjectModal() {
 
-  await expect(this.page.getByText("Create Project")).toBeVisible();
+    await expect(this.page.getByText("Create Project")).toBeVisible();
 
-}
+  }
+
+  async getAssignedTicketCount() {
+
+    await this.page.waitForTimeout(2000);
+    const textLocator = this.page.locator("text=Assigned To Me");
+    const countText = await textLocator.innerText();
+
+    const count = parseInt(countText.match(/\d+/)?.[0] || "0");
+
+    return count;
+
+  }
+  async clickViewAllTickets() {
+
+    await this.page.getByText("View All").click();
+
+  }
+  async getTicketRowCount() {
+
+    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForTimeout(3000);
+
+    // We should filter rows by some conditions or see if there's an 'Assigned To Me' tab on the tickets page
+    const tabs = this.page.locator("button, a").filter({ hasText: /Assigned To Me/i });
+
+    // Attempt printing the filter text or similar available in the page
+    const rows = this.page.locator("table:visible").last().locator("tbody tr");
+    const count = await rows.count();
+
+    return count;
+
+  }
+
+  async openNotificationPanel() {
+
+    const bellIcon = this.page.locator("//*[name()='svg' and contains(@class,'text-gray-text')]");
+
+    await bellIcon.waitFor({ state: 'visible' });
+
+    await bellIcon.click();
+
+  }
+
+  async verifyNotificationPanelOpened() {
+
+    await expect(this.page.getByRole('heading', { name: 'Notifications' })).toBeVisible();
+
+  }
 
 }
