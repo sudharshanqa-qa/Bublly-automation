@@ -1,0 +1,10 @@
+[     850ms] Uncaught Error: [PADDLE BILLING] You must specify your Paddle Seller ID or token within the Paddle.Initialize() method. See: https://developer.paddle.com/build/checkout/build-overlay-checkout
+    at t._setup (https://cdn.paddle.com/paddle/v2/paddle.js:0:51704)
+    at t.Initialize (https://cdn.paddle.com/paddle/v2/paddle.js:0:51153)
+    at onLoad (https://qa-desk.bublly.com/_next/static/chunks/app/layout-a4dafb59ea361ed0.js:0:16009)
+    at <anonymous> (https://qa-desk.bublly.com/_next/static/chunks/5012-e9cbbd39e13e3d25.js:0:9828)
+[   17428ms] Uncaught Error: [PADDLE BILLING] You must specify your Paddle Seller ID or token within the Paddle.Initialize() method. See: https://developer.paddle.com/build/checkout/build-overlay-checkout
+    at t._setup (https://cdn.paddle.com/paddle/v2/paddle.js:0:51704)
+    at t.Initialize (https://cdn.paddle.com/paddle/v2/paddle.js:0:51153)
+    at onLoad (https://qa-desk.bublly.com/_next/static/chunks/app/layout-a4dafb59ea361ed0.js:0:16009)
+    at <anonymous> (https://qa-desk.bublly.com/_next/static/chunks/5012-e9cbbd39e13e3d25.js:0:9828)

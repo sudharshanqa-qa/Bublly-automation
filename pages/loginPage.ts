@@ -1,11 +1,14 @@
 import { Page } from '@playwright/test';
+import { LoginUI } from '../ui/LoginUI';
 
 export class loginPage {
 
   private page: Page;
+  readonly ui: LoginUI;
 
   constructor(page: Page) {
     this.page = page;
+    this.ui = new LoginUI(page);
   }
 
   // Navigate to login page
@@ -15,7 +18,7 @@ export class loginPage {
 
   // Enter work email
   async enterEmail(email: string) {
-    await this.page.locator("//input[@placeholder='Enter your work email']").fill(email);
+    await this.ui.emailInput.fill(email);
 
     // small wait to see action (optional)
     await this.page.waitForTimeout(1000);
@@ -23,22 +26,40 @@ export class loginPage {
 
   // Click sign in button (email step)
   async clickEmailSignIn() {
-    await this.page.locator("//button[@type='submit']").click();
+    await this.ui.emailSignInBtn.click();
 
     // wait for password page to load
-    await this.page.waitForSelector("//input[@type='password']", { state: 'visible' });
+    await this.ui.passwordInput.waitFor({ state: 'visible' });
   }
 
   // Enter password
   async enterPassword(password: string) {
-    await this.page.locator("//input[@type='password']").fill(password);
+    await this.ui.passwordInput.fill(password);
 
     await this.page.waitForTimeout(1000);
   }
 
   // Click final sign in
   async clickPasswordSignIn() {
-    await this.page.locator("//button[@type='submit']").click();
+    await this.ui.passwordSignInBtn.click();
+  }
+
+  // Click forgot password link
+  async clickForgotPassword() {
+    await this.ui.forgotPasswordLink.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.forgotPasswordLink.click();
+  }
+
+  // Click back button on password step
+  async clickBack() {
+    await this.ui.backBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.backBtn.click();
+  }
+
+  // Toggle password visibility
+  async togglePasswordVisibility() {
+    await this.ui.passwordToggleBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.passwordToggleBtn.click();
   }
 
 }

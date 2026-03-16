@@ -1,0 +1,283 @@
+Suite,TC ID,Type,Description
+Login,TC_LGN_001,Positive,Login page loads with email input visible
+Login,TC_LGN_002,Positive,Login page URL is correct
+Login,TC_LGN_003,Positive,Email field accepts valid input
+Login,TC_LGN_004,Positive,Valid email submission shows password step
+Login,TC_LGN_005,Positive,Password field is masked by default
+Login,TC_LGN_006,Positive,Password field accepts input
+Login,TC_LGN_007,Positive,Send me a code button visible on password step
+Login,TC_LGN_008,Positive,Back button returns to email step
+Login,TC_LGN_009,Positive,Successful login redirects to app
+Login,TC_LGN_010,Positive,Send me a code button is clickable
+Login,TC_LGN_011,Positive,A heading is visible on the login page
+Login,TC_LGN_012,Positive,Password visibility toggle button is clickable on password step
+Login,TC_LGN_013,Positive,Email input is interactive and accepts click focus
+Login,TC_LGN_014,Positive,Email with uppercase letters is accepted
+Login,TC_LGN_015,Positive,Password visibility toggle button is functional
+Login,TC_LGN_016,Positive,Sign-in button becomes enabled after valid email is entered
+Login,TC_LGN_017,Positive,Email input placeholder text is correct
+Login,TC_LGN_018,Positive,Back button is visible on password step
+Login,TC_LGN_019,Positive,Email field type attribute is email or text
+Login,TC_LGN_020,Positive,Page heading is visible and non-empty on login
+Login,TC_LGN_021,Positive,Forgot password link visible after navigating to password step
+Login,TC_LGN_022,Positive,Password step sign-in button is visible
+Login,TC_LGN_023,Positive,Password step sign-in button is enabled after entering password
+Login,TC_LGN_024,Positive,Email input is the first focusable element on the page
+Login,TC_LGN_025,Positive,Clearing email after entry disables sign-in button again
+Login,TC_LGN_026,Positive,Password input does not leak value to page title
+Login,TC_LGN_027,Positive,Sign-in button is visible on initial email step
+Login,TC_LGN_028,Positive,Email input accepts pasted text
+Login,TC_LGN_029,Positive,Login page has no broken layout - body is rendered
+Login,TC_LGN_030,Positive,Email input is editable
+Login,TC_LGN_031,Positive,Password input is editable after reaching password step
+Login,TC_LGN_032,Positive,Login page is fully loaded within timeout
+Login,TC_LGN_033,Positive,Email input max length is not restrictively small
+Login,TC_LGN_034,Positive,Sign-in button is of type submit
+Login,TC_LGN_035,Positive,Email input is visible and not hidden
+Login,TC_LGN_036,Positive,Password step heading still visible after password is entered
+Login,TC_LGN_037,Positive,Login page does not redirect immediately without interaction
+Login,TC_LGN_N001,Negative,Invalid email format disables sign-in button
+Login,TC_LGN_N002,Negative,Non-registered email keeps sign-in button disabled
+Login,TC_LGN_N003,Negative,Wrong password shows error message
+Login,TC_LGN_N004,Negative,Empty email field keeps sign-in button disabled
+Login,TC_LGN_N005,Negative,Empty password prevents login
+Login,TC_LGN_N006,Negative,Direct dashboard access without login shows login form
+Login,TC_LGN_N007,Negative,SQL injection string in email field is handled safely
+Login,TC_LGN_N008,Negative,XSS string in email field is handled safely
+Login,TC_LGN_N009,Negative,Whitespace-only email keeps sign-in button disabled
+Login,TC_LGN_N010,Negative,Very long email string is handled safely
+Login,TC_LGN_N011,Negative,Password with only spaces prevents login
+Login,TC_LGN_N012,Negative,Email missing TLD keeps sign-in button disabled
+Login,TC_LGN_N013,Negative,Email with consecutive dots is handled safely
+Login,TC_LGN_N014,Negative,Very long password string is handled safely
+Login,TC_LGN_N015,Negative,Email starting with @ keeps sign-in button disabled
+Login,TC_LGN_N016,Negative,Email with multiple @ symbols keeps sign-in button disabled
+Login,TC_LGN_N017,Negative,Emoji in email field keeps sign-in button disabled
+Login,TC_LGN_N018,Negative,Email with spaces keeps sign-in button disabled
+Login,TC_LGN_N019,Negative,Back button clears password step and shows email input
+Login,TC_LGN_N020,Negative,Password field not visible on initial email step
+Login,TC_LGN_N021,Negative,Submitting wrong email format via keyboard does not navigate
+Login,TC_LGN_N022,Negative,Numeric-only input keeps sign-in button disabled
+Login,TC_LGN_N023,Negative,Single character email keeps sign-in button disabled
+Login,TC_LGN_N024,Negative,Password step is not accessible without completing email step
+Login,TC_LGN_N025,Negative,Tab through login form does not submit accidentally
+Login,TC_LGN_N026,Negative,Email with trailing dot keeps sign-in button disabled
+Login,TC_LGN_N027,Negative,Password with only numbers prevents login
+Login,TC_LGN_N028,Negative,Repeated back-and-forth between steps stays stable
+Login,TC_LGN_F001,Functional,Full login flow completes successfully end-to-end
+Login,TC_LGN_F002,Functional,Email step retains entered value before moving to password step
+Login,TC_LGN_F003,Functional,Replacing wrong password and retrying stays on password step
+Login,TC_LGN_F004,Functional,Email field is focused and ready for input on page load
+Login,TC_LGN_F005,Functional,Forgot password flow navigates away from login
+Dashboard,TC_DASH_001,Positive,Welcome message visible after login
+Dashboard,TC_DASH_002,Positive,Active workspace dropdown shows create option
+Dashboard,TC_DASH_003,Positive,Project selector shows create project option
+Dashboard,TC_DASH_004,Positive,Switch projects successfully
+Dashboard,TC_DASH_005,Positive,Ticket search returns matching results
+Dashboard,TC_DASH_006,Positive,Assigned to me section shows ticket list
+Dashboard,TC_DASH_007,Positive,Clicking ticket opens inbox conversation
+Dashboard,TC_DASH_008,Positive,Create project button opens modal
+Dashboard,TC_DASH_009,Positive,Assigned ticket count matches view all list
+Dashboard,TC_DASH_010,Positive,Notification icon opens panel
+Dashboard,TC_DASH_011,Positive,Navigation to notification settings
+Dashboard,TC_DASH_012,Positive,Create workspace button opens modal
+Dashboard,TC_DASH_013,Positive,User profile menu toggle
+Dashboard,TC_DASH_014,Positive,User logout successful
+Dashboard,TC_DASH_015,Positive,Invalid search keyword displays no results
+Dashboard,TC_DASH_016,Positive,Side navigation elements visible
+Dashboard,TC_DASH_017,Positive,Mentions/Conversations sidebar icon visible
+Dashboard,TC_DASH_018,Positive,Help/Support sanity check
+Dashboard,TC_DASH_019,Positive,Live Feed section presence check
+Dashboard,TC_DASH_020,Positive,Ticket table status column visibility
+Dashboard,TC_DASH_021,Positive,Theme toggle sanity check
+Dashboard,TC_DASH_022,Positive,Live feed section and entries visible
+Dashboard,TC_DASH_023,Positive,Ticket table contains required column headers
+Dashboard,TC_DASH_024,Positive,Assigned sections shows numeric ticket count
+Dashboard,TC_DASH_025,Positive,View All expands ticket table
+Dashboard,TC_DASH_026,Positive,Project section shows project cards
+Dashboard,TC_DASH_027,Positive,Active project shows badge
+Dashboard,TC_DASH_028,Positive,Project card has more options button
+Dashboard,TC_DASH_029,Positive,Notification panel toggle capability
+Dashboard,TC_DASH_030,Positive,Workspace list visible in dropdown
+Dashboard,TC_DASH_031,Positive,Clicking ticket record opens detail view
+Dashboard,TC_DASH_032,Positive,Welcome message includes username
+Dashboard,TC_DASH_033,Positive,Clicking live feed item opens ticket
+Dashboard,TC_DASH_034,Positive,Workspace label displays name
+Dashboard,TC_DASH_035,Positive,Notification unseen messages tab functional
+Dashboard,TC_DASH_036,Positive,Multi-record ticket list visible
+Dashboard,TC_DASH_037,Positive,Logo click keeps user on dashboard
+Dashboard,TC_DASH_038,Positive,Search input accepts keyboard input
+Dashboard,TC_DASH_039,Positive,Switch button visible for other projects
+Dashboard,TC_DASH_040,Positive,Workspace dropdown opens and displays options
+Dashboard,TC_DASH_041,Positive,Sidebar toggle collapses and expands sidebar
+Dashboard,TC_DASH_042,Positive,Ticket table sort button interaction
+Dashboard,TC_DASH_043,Positive,Quick add ticket button opens create ticket form
+Dashboard,TC_DASH_044,Positive,Workspace dropdown contains at least one option
+Dashboard,TC_DASH_045,Positive,Notification close button dismisses panel
+Dashboard,TC_DASH_046,Positive,Theme toggle accessible from dashboard
+Dashboard,TC_DASH_047,Positive,Mentions menu navigates to mentions view
+Dashboard,TC_DASH_048,Positive,Priority column header is visible in ticket table
+Dashboard,TC_DASH_049,Positive,Project card click navigates to project view
+Dashboard,TC_DASH_050,Positive,Notification panel shows All tab as default
+Dashboard,TC_DASH_051,Positive,Ticket table Customer column is visible
+Dashboard,TC_DASH_052,Positive,Ticket table Status column is visible
+Dashboard,TC_DASH_053,Positive,Search input is visible and accepts text after trigger click
+Dashboard,TC_DASH_054,Positive,Active workspace combobox is not empty
+Dashboard,TC_DASH_055,Positive,Dashboard page title is not empty
+Dashboard,TC_DASH_056,Positive,Ticket table Due Date column is visible
+Dashboard,TC_DASH_057,Positive,Ticket table Type column is visible
+Dashboard,TC_DASH_058,Positive,Notification Unread tab is clickable
+Dashboard,TC_DASH_059,Positive,Project dropdown shows create project option
+Dashboard,TC_DASH_060,Positive,Live feed heading is visible on dashboard
+Dashboard,TC_DASH_061,Positive,Ticket table has at least one row with a ticket ID
+Dashboard,TC_DASH_062,Positive,Assigned to Me heading count is a number
+Dashboard,TC_DASH_063,Positive,Active Workspace label text is visible
+Dashboard,TC_DASH_064,Positive,Bell icon is visible in the header
+Dashboard,TC_DASH_065,Positive,Ticket column header is visible in table
+Dashboard,TC_DASH_066,Positive,Profile avatar icon is visible in sidebar
+Dashboard,TC_DASH_067,Positive,View All button is visible in Assigned to Me section
+Dashboard,TC_DASH_068,Positive,Bublly logo is visible in sidebar
+Dashboard,TC_DASH_069,Positive,Notification settings icon is visible inside notification panel
+Dashboard,TC_DASH_070,Positive,Multiple tickets visible in assigned section
+Dashboard,TC_DASH_071,Positive,Welcome message is a non-empty h1 heading
+Dashboard,TC_DASH_072,Positive,Search trigger is visible before clicking
+Dashboard,TC_DASH_073,Positive,Workspace dropdown is interactive
+Dashboard,TC_DASH_074,Positive,Project section heading is visible
+Dashboard,TC_DASH_075,Positive,Assigned to Me section heading is visible
+Dashboard,TC_DASH_076,Positive,Page URL contains dashboard after login
+Dashboard,TC_DASH_077,Positive,Ticket row count matches badge count in heading
+Dashboard,TC_DASH_078,Positive,Ticket table has a thead element
+Dashboard,TC_DASH_079,Positive,Active project badge text is correct
+Dashboard,TC_DASH_080,Positive,Clicking sort column header keeps user on dashboard
+Dashboard,TC_DASH_081,Positive,Project dropdown button is visible
+Dashboard,TC_DASH_082,Positive,View All button click loads full ticket table
+Dashboard,TC_DASH_083,Positive,Workspace dropdown shows at least 1 option when opened
+Dashboard,TC_DASH_084,Positive,Project cards section has at least one card
+Dashboard,TC_DASH_N001,Negative,Search with long string returns no results
+Dashboard,TC_DASH_N002,Negative,Search with special characters remains stable
+Dashboard,TC_DASH_N003,Negative,Whitespace search remains stable
+Dashboard,TC_DASH_N004,Negative,Unauthenticated access redirects to login
+Dashboard,TC_DASH_N005,Negative,Search dismissal via Escape
+Dashboard,TC_DASH_N006,Negative,Rapid notification toggling stability
+Dashboard,TC_DASH_N007,Negative,Rapid workspace dropdown open/close stays stable
+Dashboard,TC_DASH_N008,Negative,Search with numeric-only string remains stable
+Dashboard,TC_DASH_N009,Negative,Create project modal closes on Escape key
+Dashboard,TC_DASH_N010,Negative,Back navigation from inbox returns to dashboard
+Dashboard,TC_DASH_N011,Negative,Search cleared after Escape shows dashboard intact
+Dashboard,TC_DASH_N012,Negative,Create workspace modal closes on Escape key
+Dashboard,TC_DASH_N013,Negative,Rapid project dropdown open/close stays stable
+Dashboard,TC_DASH_N014,Negative,Search with SQL injection string is handled safely
+Dashboard,TC_DASH_N015,Negative,Search with XSS payload is handled safely
+Dashboard,TC_DASH_N016,Negative,Notification panel does not navigate away from dashboard
+Dashboard,TC_DASH_N017,Negative,Rapid logo clicks keep user on dashboard
+Dashboard,TC_DASH_N018,Negative,Opening and closing notification panel 3 times stays stable
+Dashboard,TC_DASH_N019,Negative,Logout then direct dashboard access shows login page
+Dashboard,TC_DASH_N020,Negative,Search with unicode characters is handled safely
+Dashboard,TC_DASH_F001,Functional,Full ticket open flow: dashboard → ticket click → inbox
+Dashboard,TC_DASH_F002,Functional,Full search flow: open → type → results shown → close
+Dashboard,TC_DASH_F003,Functional,Notification flow: open panel → switch to Unread tab → close panel
+Dashboard,TC_DASH_F004,Functional,Project switch flow: open dropdown → switch → stays authenticated
+Dashboard,TC_DASH_F005,Functional,Notification settings flow: open panel → click settings → navigate
+Dashboard,TC_DASH_F006,Functional,Create project flow: open dropdown → click create → modal appears
+Dashboard,TC_DASH_F007,Functional,Logout flow: click avatar → click logout → redirects to login
+Dashboard,TC_DASH_F008,Functional,View all tickets flow: click View All → table expands → row count increases
+Inbox,TC_INB_001,Positive,Inbox page loads and URL contains /inbox
+Inbox,TC_INB_002,Positive,Ticket list panel is visible
+Inbox,TC_INB_003,Positive,At least one ticket item visible in list
+Inbox,TC_INB_004,Positive,Ticket ID span visible in list
+Inbox,TC_INB_005,Positive,Ticket IDs contain TESAFD prefix
+Inbox,TC_INB_006,Positive,Multiple ticket items visible in left panel
+Inbox,TC_INB_007,Positive,Ticket ID in detail panel is visible
+Inbox,TC_INB_008,Positive,Ticket ID in detail panel contains TESAFD prefix
+Inbox,TC_INB_009,Positive,Reply editor is visible
+Inbox,TC_INB_010,Positive,Reply editor is enabled
+Inbox,TC_INB_011,Positive,Reply editor is not disabled
+Inbox,TC_INB_012,Positive,Reply editor accepts typed text
+Inbox,TC_INB_013,Positive,Send button is visible
+Inbox,TC_INB_014,Positive,Send button is enabled
+Inbox,TC_INB_015,Positive,Summarize button is visible
+Inbox,TC_INB_016,Positive,Bub AI Suggestions button is visible
+Inbox,TC_INB_017,Positive,Metadata panel is visible
+Inbox,TC_INB_018,Positive,Status dropdown is visible in metadata
+Inbox,TC_INB_019,Positive,Priority dropdown is visible in metadata
+Inbox,TC_INB_020,Positive,Assignee dropdown is visible in metadata
+Inbox,TC_INB_021,Positive,Queue dropdown is visible in metadata
+Inbox,TC_INB_022,Positive,Type dropdown is visible in metadata
+Inbox,TC_INB_023,Positive,Details tab is visible in detail panel
+Inbox,TC_INB_024,Positive,Description tab is visible in detail panel
+Inbox,TC_INB_025,Positive,AI Brief tab is visible in detail panel
+Inbox,TC_INB_026,Positive,Clicking Description tab keeps user on inbox
+Inbox,TC_INB_027,Positive,Clicking AI Brief tab keeps user on inbox
+Inbox,TC_INB_028,Positive,Clicking Details tab keeps user on inbox
+Inbox,TC_INB_029,Positive,Detail panel header is visible
+Inbox,TC_INB_030,Positive,Message thread container is visible
+Inbox,TC_INB_031,Positive,Message thread is non-empty
+Inbox,TC_INB_032,Positive,Sidebar logo is visible in inbox
+Inbox,TC_INB_033,Positive,Inbox page title is non-empty
+Inbox,TC_INB_034,Positive,Page body is rendered and non-empty
+Inbox,TC_INB_035,Positive,Inbox page does not redirect to login
+Inbox,TC_INB_036,Positive,Status dropdown is enabled
+Inbox,TC_INB_037,Positive,Priority dropdown is enabled
+Inbox,TC_INB_038,Positive,Status dropdown shows options when opened
+Inbox,TC_INB_039,Positive,Priority dropdown shows options when opened
+Inbox,TC_INB_040,Positive,Reply editor placeholder is visible before typing
+Inbox,TC_INB_041,Positive,Send button is a button element
+Inbox,TC_INB_042,Positive,Clicking second ticket in list changes URL
+Inbox,TC_INB_043,Positive,Details tab is enabled
+Inbox,TC_INB_044,Positive,Description tab is enabled
+Inbox,TC_INB_045,Positive,AI Brief tab is enabled
+Inbox,TC_INB_046,Positive,Metadata panel text is non-empty
+Inbox,TC_INB_047,Positive,Status dropdown shows a status value
+Inbox,TC_INB_048,Positive,Priority dropdown shows a priority value
+Inbox,TC_INB_049,Positive,Ticket list shows at least 2 ticket IDs
+Inbox,TC_INB_050,Positive,Body contains TESAFD ticket ID text
+Inbox,TC_INB_051,Positive,Detail panel container is visible
+Inbox,TC_INB_052,Positive,Reply editor has contenteditable attribute
+Inbox,TC_INB_053,Positive,Queue dropdown is enabled
+Inbox,TC_INB_054,Positive,Type dropdown is enabled
+Inbox,TC_INB_055,Positive,Dashboard nav icon is visible in inbox sidebar
+Inbox,TC_INB_056,Positive,Reply editor text is empty before any input
+Inbox,TC_INB_057,Positive,Reply editor accepts multi-line text
+Inbox,TC_INB_058,Positive,Clicking Description tab shows different content
+Inbox,TC_INB_059,Positive,Clicking AI Brief tab shows different content
+Inbox,TC_INB_060,Positive,Ticket items in list are visible elements
+Inbox,TC_INB_061,Positive,Ticket list item is visible and has content
+Inbox,TC_INB_062,Positive,Assignee dropdown shows a name
+Inbox,TC_INB_063,Positive,Queue dropdown shows a name
+Inbox,TC_INB_064,Positive,Type dropdown shows a type
+Inbox,TC_INB_065,Positive,AI Suggestions button is clickable
+Inbox,TC_INB_066,Positive,Summarize button is clickable
+Inbox,TC_INB_067,Positive,Ticket list container has at least one item
+Inbox,TC_INB_068,Positive,Detail panel tabs visible simultaneously
+Inbox,TC_INB_069,Positive,Inbox body does not contain login form
+Inbox,TC_INB_070,Positive,Reply editor is focused when clicked
+Inbox,TC_INB_N001,Negative,Empty reply editor — send click does not navigate away
+Inbox,TC_INB_N002,Negative,Rapid send clicks without reply text stays stable
+Inbox,TC_INB_N003,Negative,Rapid tab switching between Detail panel tabs stays stable
+Inbox,TC_INB_N004,Negative,Rapid ticket switching stays stable
+Inbox,TC_INB_N005,Negative,Back navigation from inbox does not redirect to login
+Inbox,TC_INB_N006,Negative,Direct inbox URL access without login shows login form
+Inbox,TC_INB_N007,Negative,Repeated reply type and clear stays stable
+Inbox,TC_INB_N008,Negative,Reply with only whitespace does not navigate away
+Inbox,TC_INB_N009,Negative,Rapid status dropdown open/close stays stable
+Inbox,TC_INB_N010,Negative,Rapid priority dropdown open/close stays stable
+Inbox,TC_INB_N011,Negative,Typing XSS payload in reply editor is handled safely
+Inbox,TC_INB_N012,Negative,Typing very long text in reply editor stays stable
+Inbox,TC_INB_N013,Negative,Typing special characters in reply editor stays stable
+Inbox,TC_INB_N014,Negative,Typing unicode characters in reply editor stays stable
+Inbox,TC_INB_N015,Negative,Rapid clicking AI Suggestions button stays stable
+Inbox,TC_INB_N016,Negative,Rapid clicking Summarize button stays stable
+Inbox,TC_INB_N017,Negative,Opening status dropdown shows at least one option
+Inbox,TC_INB_N018,Negative,Opening priority dropdown shows at least one option
+Inbox,TC_INB_N019,Negative,Inbox page does not show login form elements
+Inbox,TC_INB_N020,Negative,Reply editor does not lose focus after typing
+Inbox,TC_INB_F001,Functional,Reply flow: type reply → send button is visible and enabled
+Inbox,TC_INB_F002,Functional,Status change flow: open dropdown → select option → stays on inbox
+Inbox,TC_INB_F003,Functional,Priority change flow: open dropdown → select option → stays on inbox
+Inbox,TC_INB_F004,Functional,Tab navigation flow: Details → Description → AI Brief → Details
+Inbox,TC_INB_F005,Functional,Multi-ticket flow: open ticket 1 → open ticket 2 → detail changes
+Inbox,TC_INB_F006,Functional,Reply clear flow: type → clear → editor is empty
+Inbox,TC_INB_F007,Functional,Full reply compose flow: type multi-line → verify editor has content
+Inbox,TC_INB_F008,Functional,AI Suggestions flow: click button → stays on inbox
+Inbox,TC_INB_F009,Functional,Full metadata view: status + priority + assignee + queue visible
+Inbox,TC_INB_F010,Functional,Dashboard navigation flow: click dashboard icon → lands on dashboard

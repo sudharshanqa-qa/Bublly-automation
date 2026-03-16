@@ -1,232 +1,181 @@
-import { Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
+import { DashboardUI } from '../ui/DashboardUI';
 
 export class DashboardPage {
 
   private page: Page;
+  readonly ui: DashboardUI;
 
   constructor(page: Page) {
     this.page = page;
+    this.ui = new DashboardUI(page);
   }
 
-  // Navigate to dashboard
   async navigateToDashboard() {
-
-    await this.page.locator("(//div[contains(@class,'relative p-2')]//*[name()='svg'])[1]").click();
-
-    // wait until dashboard loads
-    await this.page.waitForLoadState('networkidle');
+    await this.ui.dashboardIcon.click();
+    await this.ui.welcomeMessage.waitFor({ state: 'visible', timeout: 30000 });
   }
 
-  // Verify welcome message
-  async verifyWelcomeMessage() {
-
-    await expect(
-      this.page.locator("h1:has-text('Welcome Back')")
-    ).toBeVisible();
-
-  }
-
-  // Open Workspace dropdown
   async openWorkspaceDropdown() {
-
-    const workspaceDropdown = this.page.locator(
-      "button[role='combobox'][data-slot='select-trigger'], [data-slot='select-trigger'], button[aria-haspopup='listbox']"
-    ).first();
-
-    await workspaceDropdown.waitFor({ state: 'visible', timeout: 15000 });
-
-    await workspaceDropdown.click();
-
-    // wait for dropdown options
-    await this.page.getByText("Create New Workspace")
-      .waitFor({ state: 'visible', timeout: 15000 });
-
+    await this.ui.workspaceDropdown.waitFor({ state: 'visible', timeout: 15000 });
+    await this.ui.workspaceDropdown.click();
+    await this.page.locator('[role="listbox"]').waitFor({ state: 'visible', timeout: 15000 });
   }
 
-  // Verify workspace option
-  async verifyCreateWorkspaceOption() {
-
-    await expect(
-      this.page.getByText("Create New Workspace")
-    ).toBeVisible();
-
-  }
-
-  // Open Project dropdown
   async openProjectDropdown() {
-
-    const projectDropdown = this.page.locator("button.bg-primary-yellow-25").first();
-
-    await projectDropdown.waitFor({ state: 'visible' });
-
-    await projectDropdown.click();
-
-    // wait until switch project options appear
-    await this.page.getByText("Create Project").waitFor({ state: 'visible' });
-
+    await this.ui.projectDropdown.waitFor({ state: 'visible' });
+    await this.ui.projectDropdown.click();
+    await this.page.locator('[role="dialog"]').waitFor({ state: 'visible', timeout: 15000 });
   }
 
-  // Get list of projects
-  async getProjectList() {
-
-    return this.page.locator('[role="option"]');
-
-  }
-
-  // Select second project from Switch Project list
   async selectSecondProject() {
-
-    const switchButtons = this.page.getByText('Switch');
-    // wait for the switch buttons to be attached
+    const switchButtons = this.ui.switchButtons;
     await switchButtons.first().waitFor({ state: 'attached', timeout: 5000 }).catch(() => { });
     const count = await switchButtons.count();
-
     if (count > 0) {
-      // Click the first available switch button
       await switchButtons.first().click();
     }
   }
 
-  // Verify project changed
-  async verifyProjectChanged() {
-
-    const selectedProject = this.page.locator("button.bg-primary-yellow-25").first();
-
-    await expect(selectedProject).toBeVisible();
-
-  }
-
-  // Verify Create Project option exists
-  async verifyCreateProjectOption() {
-
-    await expect(
-      this.page.getByText("Create Project")
-    ).toBeVisible();
-
-  }
-
   async searchKeyword() {
-
-    const searchTrigger = this.page.locator("(//div[contains(@class,'rounded-xl') and contains(@class,'cursor-pointer')])[1]");
-    await searchTrigger.waitFor({ state: 'visible' });
-    await searchTrigger.click();
-
-    const searchInput = this.page.locator('input[placeholder="Search here..."]');
-    await searchInput.waitFor({ state: 'visible' });
-    await searchInput.fill("ticket");
+    await this.ui.searchTrigger.waitFor({ state: 'visible' });
+    await this.ui.searchTrigger.click();
+    await this.ui.searchInput.waitFor({ state: 'visible' });
+    await this.ui.searchInput.fill("ticket");
     await this.page.keyboard.press('Enter');
-
   }
 
-  async verifySearchResults() {
-
-    await expect(this.page.locator("body")).toContainText("ticket");
-
-  }
-  async verifyAssignedTicketsSection() {
-
-    const assignedSection = this.page.getByText("Assigned To Me");
-
-    await expect(assignedSection).toBeVisible();
-
-  }
-
-  async verifyTicketRowsExist() {
-
-    const ticketRows = this.page.locator("table tbody tr");
-
-    await expect(ticketRows.first()).toBeVisible();
-
-  }
   async openFirstTicket() {
-
-    const firstTicket = this.page.locator("text=#TESAFD").first();
-
-    await firstTicket.waitFor({ state: 'visible' });
-
-    await firstTicket.click();
-
+    await this.ui.firstTicket.waitFor({ state: 'visible' });
+    await this.ui.firstTicket.click();
   }
-  async verifyTicketPageOpened() {
 
-    await expect(this.page).toHaveURL(/tickets/);
-
-  }
   async clickCreateProject() {
-
-    await this.page.getByText("Create Project").click();
-
+    await this.ui.createProjectOption.click();
   }
-  async verifyCreateProjectModal() {
 
-    await expect(this.page.getByText("Create Project")).toBeVisible();
+  /** Opens the project dropdown and clicks "Create Project".
+   *  Returns true if the modal opened, false if plan is full ("All Used"). */
+  async openCreateProjectModal(): Promise<boolean> {
+    await this.openProjectDropdown();
+    const allUsedBtn = this.page.getByRole('button', { name: 'All Used', exact: true });
+    const isAllUsed = await allUsedBtn.isVisible().catch(() => false);
+    if (isAllUsed) return false;
+    await this.clickCreateProject();
+    await this.ui.createProjectModal.waitFor({ state: 'visible', timeout: 8000 });
+    return true;
+  }
 
+  /** Returns true if "Create New Workspace" option is available in the workspace dropdown. */
+  async isWorkspaceCreateAvailable(): Promise<boolean> {
+    await this.openWorkspaceDropdown();
+    const option = this.page.getByRole('option', { name: /create new workspace/i });
+    return await option.isVisible().catch(() => false);
   }
 
   async getAssignedTicketCount() {
-
     await this.page.waitForTimeout(2000);
-    const textLocator = this.page.locator("text=Assigned To Me");
-    const countText = await textLocator.innerText();
-
-    const count = parseInt(countText.match(/\d+/)?.[0] || "0");
-
-    return count;
-
+    const countText = await this.ui.assignedToMeText.innerText();
+    return parseInt(countText.match(/\d+/)?.[0] || "0");
   }
+
   async clickViewAllTickets() {
-
-    await this.page.getByText("View All").click();
-
+    await this.ui.viewAllButton.click();
   }
-  async getTicketRowCount() {
 
+  async getTicketRowCount() {
     await this.page.waitForLoadState('networkidle');
     await this.page.waitForTimeout(3000);
-
-    // We should filter rows by some conditions or see if there's an 'Assigned To Me' tab on the tickets page
-    const tabs = this.page.locator("button, a").filter({ hasText: /Assigned To Me/i });
-
-    // Attempt printing the filter text or similar available in the page
-    const rows = this.page.locator("table:visible").last().locator("tbody tr");
-    const count = await rows.count();
-
-    return count;
-
+    return await this.ui.visibleTableRows.count();
   }
 
   async openNotificationPanel() {
-
-    const bellIcon = this.page.locator("//*[name()='svg' and contains(@class,'text-gray-text')]");
-
-    await bellIcon.waitFor({ state: 'visible' });
-
-    await bellIcon.click();
-
-  }
-
-  async verifyNotificationPanelOpened() {
-
-    await expect(this.page.getByRole('heading', { name: 'Notifications' })).toBeVisible();
-
+    await this.ui.bellIcon.waitFor({ state: 'visible' });
+    await this.ui.bellIcon.click();
+    await this.ui.notificationHeading.waitFor({ state: 'visible', timeout: 10000 });
   }
 
   async openNotificationSettings() {
-
-    const settingsIcon = this.page.locator('h2', { hasText: 'Notifications' }).locator('..').locator('.cursor-pointer').nth(1);
-
-    await settingsIcon.waitFor({ state: 'visible' });
-
-    await settingsIcon.click();
-
+    await this.ui.notificationSettingsIcon.waitFor({ state: 'visible' });
+    await this.ui.notificationSettingsIcon.click();
   }
 
-  async verifyNotificationSettingsPage() {
-
-    await expect(this.page.getByText("Notification Settings")).toBeVisible();
-
-    await expect(this.page).toHaveURL(/notificationsettings/);
-
+  async clickCreateWorkspace() {
+    await this.ui.createWorkspaceOption.waitFor({ state: 'visible' });
+    await this.ui.createWorkspaceOption.click();
   }
 
+  async openProfileMenu() {
+    await this.ui.profileMenuBtn.waitFor({ state: 'visible', timeout: 8000 });
+    await this.ui.profileMenuBtn.click();
+    await this.page.waitForTimeout(2000);
+  }
+
+  async clickLogout() {
+    await this.ui.logoutBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.logoutBtn.click();
+  }
+
+  async searchInvalidKeyword() {
+    await this.ui.searchTrigger.waitFor({ state: 'visible' });
+    await this.ui.searchTrigger.click();
+    await this.ui.searchInput.waitFor({ state: 'visible' });
+    await this.ui.searchInput.fill("invalid_search_gibberish_123");
+    await this.page.keyboard.press('Enter');
+  }
+
+  async toggleSidebar() {
+    await this.ui.sidebarToggleBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.sidebarToggleBtn.click();
+  }
+
+  async openMentions() {
+    await this.ui.mentionsMenu.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.mentionsMenu.click();
+  }
+
+  async clickSort() {
+    await this.ui.sortBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.sortBtn.click();
+  }
+
+  async toggleTheme() {
+    await this.ui.themeToggleBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.themeToggleBtn.click();
+  }
+
+  async fillCreateProjectName(name: string) {
+    await this.ui.createProjectNameInput.waitFor({ state: 'visible', timeout: 8000 });
+    await this.ui.createProjectNameInput.fill(name);
+  }
+
+  async submitCreateProject() {
+    await this.ui.createProjectSubmitBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.createProjectSubmitBtn.click();
+  }
+
+  async cancelCreateProject() {
+    await this.ui.createProjectCancelBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.createProjectCancelBtn.click();
+  }
+
+  async fillCreateWorkspaceName(name: string) {
+    await this.ui.createWorkspaceNameInput.waitFor({ state: 'visible', timeout: 8000 });
+    await this.ui.createWorkspaceNameInput.fill(name);
+  }
+
+  async selectWorkspaceType(type: string = 'Devops') {
+    await this.page.getByRole('button', { name: type, exact: true }).waitFor({ state: 'visible', timeout: 8000 });
+    await this.page.getByRole('button', { name: type, exact: true }).click();
+  }
+
+  async clickNextInWorkspaceModal() {
+    await this.page.getByRole('button', { name: 'Next', exact: true }).waitFor({ state: 'visible', timeout: 8000 });
+    await this.page.getByRole('button', { name: 'Next', exact: true }).click();
+  }
+
+  async getFirstTicketColumnValue() {
+    await this.ui.ticketRows.first().waitFor({ state: 'visible', timeout: 10000 });
+    return await this.ui.ticketRows.first().locator('td').first().textContent();
+  }
 }
