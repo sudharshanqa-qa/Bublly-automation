@@ -12,8 +12,9 @@ export class DashboardPage {
   }
 
   async navigateToDashboard() {
+    await this.ui.dashboardIcon.waitFor({ state: 'visible', timeout: 45000 });
     await this.ui.dashboardIcon.click();
-    await this.ui.welcomeMessage.waitFor({ state: 'visible', timeout: 30000 });
+    await this.ui.welcomeMessage.waitFor({ state: 'visible', timeout: 45000 });
   }
 
   async openWorkspaceDropdown() {
@@ -106,13 +107,13 @@ export class DashboardPage {
   }
 
   async openProfileMenu() {
-    await this.ui.profileMenuBtn.waitFor({ state: 'visible', timeout: 8000 });
+    await this.ui.profileMenuBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.profileMenuBtn.click();
     await this.page.waitForTimeout(2000);
   }
 
   async clickLogout() {
-    await this.ui.logoutBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.logoutBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.logoutBtn.click();
   }
 
@@ -125,37 +126,37 @@ export class DashboardPage {
   }
 
   async toggleSidebar() {
-    await this.ui.sidebarToggleBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.sidebarToggleBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.sidebarToggleBtn.click();
   }
 
   async openMentions() {
-    await this.ui.mentionsMenu.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.mentionsMenu.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.mentionsMenu.click();
   }
 
   async clickSort() {
-    await this.ui.sortBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.sortBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.sortBtn.click();
   }
 
   async toggleTheme() {
-    await this.ui.themeToggleBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.themeToggleBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.themeToggleBtn.click();
   }
 
   async fillCreateProjectName(name: string) {
-    await this.ui.createProjectNameInput.waitFor({ state: 'visible', timeout: 8000 });
+    await this.ui.createProjectNameInput.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.createProjectNameInput.fill(name);
   }
 
   async submitCreateProject() {
-    await this.ui.createProjectSubmitBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.createProjectSubmitBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.createProjectSubmitBtn.click();
   }
 
   async cancelCreateProject() {
-    await this.ui.createProjectCancelBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.createProjectCancelBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.createProjectCancelBtn.click();
   }
 

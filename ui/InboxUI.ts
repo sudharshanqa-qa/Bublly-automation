@@ -46,18 +46,22 @@ export class InboxUI {
     constructor(page: Page) {
 
         // ── List Panel ────────────────────────────────────────────────────────
-        this.ticketListContainer = page.locator('//div[contains(@class,"overflow-y-auto")]').first();
-        this.ticketItems = page.locator('a[href*="/ticket/"]');
-        this.firstTicketItem = page.locator('a[href*="/ticket/"]').first();
-        this.ticketIdSpans = page.locator('span.ml-3');
-        this.firstTicketIdSpan = page.locator('span.ml-3').first();
+        // The conversation list container: the div that directly wraps py-3 cursor-pointer rows.
+        this.ticketListContainer = page.locator('div').filter({ has: page.locator('div[class*="cursor-pointer"][class*="py-3"]') }).first();
+        // Conversation rows: py-3 cursor-pointer (sidebar channel items use py-2, so py-3 is unique to conversations)
+        this.ticketItems = page.locator('div[class*="cursor-pointer"][class*="py-3"]');
+        this.firstTicketItem = page.locator('div[class*="cursor-pointer"][class*="py-3"]').first();
+        // Ticket ID spans appear inside the conversation detail panel (ml-3 spans with # prefix)
+        this.ticketIdSpans = page.locator('span.ml-3').filter({ hasText: /^#/ });
+        this.firstTicketIdSpan = page.locator('span.ml-3').filter({ hasText: /^#/ }).first();
         this.viewFilterButton = page.locator('button').filter({ hasText: /^\d*(Open|All|Pending|Resolved|Closed)$/ }).first();
         this.listHeadingAll = page.locator('p.font-semibold:has-text("All")').first();
 
         // ── Detail Panel tabs ─────────────────────────────────────────────────
-        this.detailsTab = page.getByRole('button', { name: 'Details' });
-        this.descriptionTab = page.getByRole('button', { name: 'Description' });
-        this.aiBriefTab = page.getByRole('button', { name: 'AI Brief' });
+        // These buttons have no aria role attribute — use filter by text instead of getByRole
+        this.detailsTab = page.locator('button').filter({ hasText: /^Details$/ }).first();
+        this.descriptionTab = page.locator('button').filter({ hasText: /^Description$/ }).first();
+        this.aiBriefTab = page.locator('button').filter({ hasText: /^AI Brief$/ }).first();
 
         // ── Detail Panel ──────────────────────────────────────────────────────
         this.detailPanelContainer = page.locator('//div[contains(@class,"flex-1") and not(contains(@class,"sidebar"))]').last();
@@ -68,25 +72,29 @@ export class InboxUI {
         this.replyEditor = page.locator('div[contenteditable="true"]').last();
         // Send button: appears after typing, has class bg-primary-button
         this.sendButton = page.locator('button[class*="bg-primary-button"]');
-        this.summarizeButton = page.getByRole('button', { name: 'Summarize' });
-        this.aiSuggestionsButton = page.getByRole('button', { name: 'Bub AI Suggestions' });
+        // These buttons have no aria role attribute — use filter by text instead of getByRole
+        this.summarizeButton = page.locator('button').filter({ hasText: /^Summarize$/ }).first();
+        this.aiSuggestionsButton = page.locator('button').filter({ hasText: /^Bub AI Suggestions$/ }).first();
         this.detailPanelHeader = page.locator('//div[contains(@class,"border-b")]').first();
 
         // ── Metadata Sidebar ──────────────────────────────────────────────────
-        this.metadataPanel = page.locator('div:has(div[class="grid "]:has-text("Status"))').last();
-        // Status/priority/assignee are combobox-style buttons sharing the same class pattern
-        // Ordered in DOM: project button → "1Open" view filter → then metadata: status, priority, assignee, queue, type
-        this.statusDropdown = page.locator('button[class*="data-[placeholder]"]').nth(3);   // 0=project,1=viewFilter,2=?,3=status
+        // Metadata panel class: "space-y-3 text-sm text-gray-800 dark:... p-2 bg-grey-100"
+        const metaPanel = page.locator('div[class*="space-y-3"][class*="bg-grey"]').first();
+        this.metadataPanel = metaPanel;
         this.statusOptions = page.locator('[role="option"]');
-        this.priorityDropdown = page.locator('button[class*="data-[placeholder]"]').nth(4);  // priority after status
         this.priorityOptions = page.locator('[role="option"]');
-        this.assigneeDropdown = page.locator('button[class*="data-[placeholder]"]').nth(2);  // assignee
-        this.queueDropdown = page.locator('button').filter({ hasText: /customer support/i }).first();
-        this.typeDropdown = page.locator('button').filter({ hasText: /^Inbox$/ }).first();
+        // data-[placeholder] combobox buttons within metadata, in DOM order:
+        // 0=assignee, 1=queue(Customer Support), 2=type(Inbox), 3=status(Open), 4=priority(Medium)
+        // "Queue" label does not exist in DOM — use positional selectors scoped to metaPanel
+        this.assigneeDropdown = metaPanel.locator('button[class*="data-[placeholder]"]').nth(0);
+        this.queueDropdown    = metaPanel.locator('button[class*="data-[placeholder]"]').nth(1);
+        this.typeDropdown     = metaPanel.locator('button[class*="data-[placeholder]"]').nth(2);
+        this.statusDropdown   = metaPanel.locator('button[class*="data-[placeholder]"]').nth(3);
+        this.priorityDropdown = metaPanel.locator('button[class*="data-[placeholder]"]').nth(4);
 
         // ── Shared / Navigation ────────────────────────────────────────────────
         this.inboxSidebarLogo = page.locator('img[alt="bubllyIcon"]').first();
-        this.dashboardNavIcon = page.locator("(//div[contains(@class,'relative p-2')]//*[name()='svg'])[1]");
+        this.dashboardNavIcon = page.locator("xpath=(//div[contains(@class,'relative p-2')]//*[name()='svg'])[1]");
         this.bodyLocator = page.locator('body');
     }
 }

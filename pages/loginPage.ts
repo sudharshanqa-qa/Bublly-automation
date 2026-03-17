@@ -29,7 +29,7 @@ export class loginPage {
     await this.ui.emailSignInBtn.click();
 
     // wait for password page to load
-    await this.ui.passwordInput.waitFor({ state: 'visible' });
+    await this.ui.passwordInput.waitFor({ state: 'visible', timeout: 20000 });
   }
 
   // Enter password
@@ -46,19 +46,19 @@ export class loginPage {
 
   // Click forgot password link
   async clickForgotPassword() {
-    await this.ui.forgotPasswordLink.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.forgotPasswordLink.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.forgotPasswordLink.click();
   }
 
   // Click back button on password step
   async clickBack() {
-    await this.ui.backBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.backBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.backBtn.click();
   }
 
   // Toggle password visibility
   async togglePasswordVisibility() {
-    await this.ui.passwordToggleBtn.waitFor({ state: 'visible', timeout: 5000 });
+    await this.ui.passwordToggleBtn.waitFor({ state: 'visible', timeout: 15000 });
     await this.ui.passwordToggleBtn.click();
   }
 

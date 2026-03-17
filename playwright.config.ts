@@ -15,14 +15,18 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use with organized test-results folder by default */
   reporter: 'html',
+  /* Increase per-test timeout to handle slow network responses from remote QA environment */
+  timeout: 90000,
 
   /* Shared settings for all the projects below. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
     // baseURL: 'http://localhost:3000',
-     
+
      headless: true, // Run tests in headed mode for better visibility during development
 
+    /* Increase navigation timeout for slow remote environment */
+    navigationTimeout: 45000,
 
     /* Capture full-page screenshots for failed tests */
     screenshot: { mode: 'only-on-failure', fullPage: true },
