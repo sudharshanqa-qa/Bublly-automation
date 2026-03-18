@@ -21,4 +21,9 @@ export const testdata = {
   inboxUnicodeSearch: "テスト検索",
   inboxSpecialChars: "!@#$%^&*()",
 
+  // Boards test data
+  boardName: "Bug",
+  secondBoardName: "FeatureRequests",
+  boardsTicketIdPrefix: "TESAFD_",
+
 };

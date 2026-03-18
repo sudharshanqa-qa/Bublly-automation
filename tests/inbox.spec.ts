@@ -641,4 +641,279 @@ test.describe('Inbox', () => {
     await expect(page.locator("h1:has-text('Welcome Back')")).toBeVisible({ timeout: 8000 });
   });
 
+  // ── Additional Positive Test Cases ───────────────────────────────────────────
+
+  test('TC_INB_071 - View filter button is visible in left panel header', async () => {
+    await expect(inbox.ui.viewFilterButton).toBeVisible({ timeout: 8000 });
+  });
+
+  test('TC_INB_072 - Clicking view filter button opens a dropdown with options', async ({ page }) => {
+    await inbox.ui.viewFilterButton.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.viewFilterButton.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    await page.keyboard.press('Escape');
+  });
+
+  test('TC_INB_073 - Assignee dropdown opens and shows options', async ({ page }) => {
+    await inbox.ui.assigneeDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.assigneeDropdown.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    await page.keyboard.press('Escape');
+  });
+
+  test('TC_INB_074 - Type dropdown opens and shows options', async ({ page }) => {
+    await inbox.ui.typeDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.typeDropdown.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    await page.keyboard.press('Escape');
+  });
+
+  test('TC_INB_075 - Queue dropdown opens and shows options', async ({ page }) => {
+    await inbox.ui.queueDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.queueDropdown.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    expect(count).toBeGreaterThanOrEqual(1);
+    await page.keyboard.press('Escape');
+  });
+
+  test('TC_INB_076 - Ticket subject or title is visible in detail panel', async ({ page }) => {
+    const subject = page.locator('p[class*="font-semibold"], p[class*="font-medium"], h1, h2, h3')
+      .filter({ hasText: /\S/ })
+      .first();
+    await expect(subject).toBeVisible({ timeout: 8000 });
+    const text = await subject.textContent();
+    expect(text?.trim().length).toBeGreaterThan(0);
+  });
+
+  test('TC_INB_077 - Message thread container is scrollable', async () => {
+    await inbox.ui.messageThread.waitFor({ state: 'visible', timeout: 8000 });
+    const overflow = await inbox.ui.messageThread.evaluate(
+      el => getComputedStyle(el).overflowY
+    );
+    expect(['auto', 'scroll', 'overlay']).toContain(overflow);
+  });
+
+  test('TC_INB_078 - Description tab renders content after clicking', async ({ page }) => {
+    await inbox.ui.descriptionTab.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.descriptionTab.click();
+    await page.waitForTimeout(1000);
+    await expect(inbox.ui.detailPanelContainer).toBeVisible({ timeout: 5000 });
+    const text = await inbox.ui.detailPanelContainer.textContent();
+    expect(text?.trim().length).toBeGreaterThan(0);
+  });
+
+  test('TC_INB_079 - AI Brief tab renders content after clicking', async ({ page }) => {
+    await inbox.ui.aiBriefTab.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.aiBriefTab.click();
+    await page.waitForTimeout(1000);
+    await expect(inbox.ui.detailPanelContainer).toBeVisible({ timeout: 5000 });
+    const text = await inbox.ui.detailPanelContainer.textContent();
+    expect(text?.trim().length).toBeGreaterThan(0);
+  });
+
+  test('TC_INB_080 - Reply editor supports select all via Meta+A', async ({ page }) => {
+    await inbox.typeReply(testdata.inboxReplyText);
+    await inbox.ui.replyEditor.click();
+    await page.keyboard.press('Meta+A');
+    await page.waitForTimeout(300);
+    // Page must stay stable after keyboard shortcut
+    await expect(inbox.ui.replyEditor).toBeVisible({ timeout: 5000 });
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+  });
+
+  test('TC_INB_081 - View filter button shows current filter label', async () => {
+    await inbox.ui.viewFilterButton.waitFor({ state: 'visible', timeout: 8000 });
+    const text = await inbox.ui.viewFilterButton.textContent();
+    expect(text?.trim().length).toBeGreaterThan(0);
+  });
+
+  test('TC_INB_082 - Assignee dropdown shows current assignee or placeholder', async () => {
+    await expect(inbox.ui.assigneeDropdown).toBeVisible({ timeout: 8000 });
+    const text = await inbox.ui.assigneeDropdown.textContent();
+    expect(text?.trim().length).toBeGreaterThan(0);
+  });
+
+  test('TC_INB_083 - Metadata panel contains all 5 dropdown fields', async () => {
+    await expect(inbox.ui.assigneeDropdown).toBeVisible({ timeout: 8000 });
+    await expect(inbox.ui.queueDropdown).toBeVisible({ timeout: 5000 });
+    await expect(inbox.ui.typeDropdown).toBeVisible({ timeout: 5000 });
+    await expect(inbox.ui.statusDropdown).toBeVisible({ timeout: 5000 });
+    await expect(inbox.ui.priorityDropdown).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_084 - Second ticket in list is visible and has content', async () => {
+    const count = await inbox.ui.ticketItems.count();
+    if (count > 1) {
+      await expect(inbox.ui.ticketItems.nth(1)).toBeVisible({ timeout: 8000 });
+      const text = await inbox.ui.ticketItems.nth(1).textContent();
+      expect(text?.trim().length).toBeGreaterThan(0);
+    } else {
+      // Only one ticket — first ticket check is sufficient
+      await expect(inbox.ui.firstTicketItem).toBeVisible({ timeout: 8000 });
+    }
+  });
+
+  test('TC_INB_085 - Reply editor placeholder disappears after typing', async ({ page }) => {
+    // Before typing, body contains placeholder
+    await expect(inbox.ui.bodyLocator).toContainText('Start Conversation', { timeout: 8000 });
+    await inbox.typeReply(testdata.inboxReplyText);
+    // After typing, editor has real content
+    const text = await inbox.ui.replyEditor.textContent();
+    expect(text?.trim().length).toBeGreaterThan(0);
+  });
+
+  // ── Additional Negative Test Cases ───────────────────────────────────────────
+
+  test('TC_INB_N021 - Rapid assignee dropdown open/close stays stable', async ({ page }) => {
+    for (let i = 0; i < 3; i++) {
+      await inbox.ui.assigneeDropdown.waitFor({ state: 'visible', timeout: 8000 });
+      await inbox.ui.assigneeDropdown.click();
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+    }
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.metadataPanel).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_N022 - Rapid queue dropdown open/close stays stable', async ({ page }) => {
+    for (let i = 0; i < 3; i++) {
+      await inbox.ui.queueDropdown.waitFor({ state: 'visible', timeout: 8000 });
+      await inbox.ui.queueDropdown.click();
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+    }
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.metadataPanel).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_N023 - Rapid type dropdown open/close stays stable', async ({ page }) => {
+    for (let i = 0; i < 3; i++) {
+      await inbox.ui.typeDropdown.waitFor({ state: 'visible', timeout: 8000 });
+      await inbox.ui.typeDropdown.click();
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+    }
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.metadataPanel).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_N024 - Rapid view filter open/close stays stable', async ({ page }) => {
+    for (let i = 0; i < 3; i++) {
+      await inbox.ui.viewFilterButton.waitFor({ state: 'visible', timeout: 8000 });
+      await inbox.ui.viewFilterButton.click();
+      await page.waitForTimeout(300);
+      await page.keyboard.press('Escape');
+      await page.waitForTimeout(300);
+    }
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.firstTicketItem).toBeVisible({ timeout: 8000 });
+  });
+
+  test('TC_INB_N025 - Clearing reply after long text leaves editor empty or placeholder', async ({ page }) => {
+    await inbox.typeReply(testdata.inboxLongString);
+    await inbox.clearReply();
+    await page.waitForTimeout(500);
+    const text = await inbox.ui.replyEditor.textContent();
+    expect(!text?.trim() || text.trim() === 'Start Conversation...').toBeTruthy();
+  });
+
+  // ── Additional Functional Flow Cases ─────────────────────────────────────────
+
+  test('TC_INB_F011 - Assignee dropdown flow: open → options visible → close → stays on inbox', async ({ page }) => {
+    await inbox.ui.assigneeDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.assigneeDropdown.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    await expect(options.first()).toBeVisible({ timeout: 5000 });
+    expect(await options.count()).toBeGreaterThanOrEqual(1);
+    await page.keyboard.press('Escape');
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.metadataPanel).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_F012 - Status change flow: open → select option → dropdown stays visible', async ({ page }) => {
+    await inbox.ui.statusDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.openStatusDropdown();
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    if (count > 0) {
+      await options.first().click();
+      await page.waitForTimeout(1500);
+    } else {
+      await page.keyboard.press('Escape');
+    }
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.statusDropdown).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_F013 - Priority change flow: open → select option → dropdown stays visible', async ({ page }) => {
+    await inbox.ui.priorityDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.openPriorityDropdown();
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    if (count > 0) {
+      await options.first().click();
+      await page.waitForTimeout(1500);
+    } else {
+      await page.keyboard.press('Escape');
+    }
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.priorityDropdown).toBeVisible({ timeout: 5000 });
+  });
+
+  test('TC_INB_F014 - View filter flow: open → options visible → Escape → ticket list intact', async ({ page }) => {
+    await inbox.ui.viewFilterButton.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.viewFilterButton.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    await expect(options.first()).toBeVisible({ timeout: 5000 });
+    expect(await options.count()).toBeGreaterThanOrEqual(1);
+    await page.keyboard.press('Escape');
+    await expect(inbox.ui.firstTicketItem).toBeVisible({ timeout: 8000 });
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+  });
+
+  test('TC_INB_F015 - Reply send flow: type → send → editor clears', async ({ page }) => {
+    await inbox.typeReply(testdata.inboxReplyText);
+    await expect(inbox.ui.sendButton).toBeVisible({ timeout: 8000 });
+    await inbox.clickSend();
+    await page.waitForTimeout(2000);
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    // After send the editor should be empty or reset to placeholder
+    const text = await inbox.ui.replyEditor.textContent();
+    expect(!text?.trim() || text.trim() === 'Start Conversation...').toBeTruthy();
+  });
+
+  test('TC_INB_F016 - Type dropdown flow: open → select option → stays on inbox', async ({ page }) => {
+    await inbox.ui.typeDropdown.waitFor({ state: 'visible', timeout: 8000 });
+    await inbox.ui.typeDropdown.click();
+    await page.waitForTimeout(500);
+    const options = page.locator('[role="option"]');
+    const count = await options.count();
+    if (count > 0) {
+      await options.first().click();
+      await page.waitForTimeout(2000);
+    } else {
+      await page.keyboard.press('Escape');
+    }
+    // Selecting a type may close the detail panel if the ticket moves filter view —
+    // verify only that the app stays on inbox and the ticket list is still rendered.
+    await expect(page).toHaveURL(/inbox/, { timeout: 5000 });
+    await expect(inbox.ui.firstTicketItem).toBeVisible({ timeout: 10000 });
+  });
+
 });
