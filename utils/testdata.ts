@@ -26,4 +26,8 @@ export const testdata = {
   secondBoardName: "FeatureRequests",
   boardsTicketIdPrefix: "TESAFD_",
 
+  // Contacts test data
+  contactSearchKeyword: "Aaura",
+  contactInvalidSearch: "zzz_invalid_contact_xyz_999",
+
 };
