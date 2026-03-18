@@ -36,9 +36,9 @@ export class ContactsPage {
 
   // Clicks contact at 0-based index, waits for detail page to load
   async clickContact(index: number): Promise<void> {
-    const rows = this.ui.contactListItems;
-    await rows.nth(index).waitFor({ state: 'visible', timeout: 10000 });
-    await rows.nth(index).click();
+    const links = this.ui.contactNames;
+    await links.nth(index).waitFor({ state: 'visible', timeout: 10000 });
+    await links.nth(index).click();
     await this.page.waitForURL(/\/contacts\/users\//, { timeout: 30000 });
     await this.ui.detailPanelName.waitFor({ state: 'visible', timeout: 20000 });
   }

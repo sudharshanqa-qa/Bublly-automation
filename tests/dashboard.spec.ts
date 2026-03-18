@@ -1105,7 +1105,7 @@ test.describe('Dashboard', () => {
     await expect(page.getByText('Create New Workspace', { exact: true })).not.toBeVisible({ timeout: 8000 });
   });
 
-  // ── Sort Verification ─────────────────────────────────────────────────────────
+  // ── Sort Verification ──────────────────────────────────────────────────────
 
   test('TC_DASH_059 - Sort column header applies ascending sort on first click', async ({ page }) => {
     const columnHeader = dashboard.ui.tableColumnTicket;
